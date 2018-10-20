@@ -1,0 +1,71 @@
+<div class="example-container container-fluid">
+
+  <h4 class="card-title">Contact <fa-icon [icon]="faAddressCard"></fa-icon></h4>
+
+  <div
+    cdkDropList
+    #contactList="cdkDropList"
+    [cdkDropListData]="contact"
+    [cdkDropListConnectedTo]="[dialogList, contactList, offerList, offerList, finishedList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of contact" cdkDrag>{{item}}</div>
+  </div>
+</div>
+
+<div class="example-container">
+  <h4 class="card-title">Dialog <fa-icon [icon]="faComments"></fa-icon></h4>
+
+  <div
+    cdkDropList
+    #dialogList="cdkDropList"
+    [cdkDropListData]="dialog"
+    [cdkDropListConnectedTo]="[interviewList, offerList, contactList, dialogList, finishedList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of dialog" cdkDrag>{{item}}</div>
+  </div>
+</div>
+
+<div class="example-container">
+  <h4 class="card-title">Interview <fa-icon [icon]="faCoffee"></fa-icon></h4>
+
+  <div
+    cdkDropList
+    #interviewList="cdkDropList"
+    [cdkDropListData]="interview"
+    [cdkDropListConnectedTo]="[offerList, interviewList, contactList, dialogList, finishedList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of interview" cdkDrag>{{item}}</div>
+  </div>
+</div>
+
+<div class="example-container">
+  <h4 class="card-title">Offer <fa-icon [icon]="faMoneyCheckAlt"></fa-icon></h4>
+
+  <div
+    cdkDropList
+    #offerList="cdkDropList"
+    [cdkDropListData]="offer"
+    [cdkDropListConnectedTo]="[finishedList, contactList, dialogList, offerList, interviewList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of offer" cdkDrag>{{item}}</div>
+  </div>
+</div>
+
+<div class="example-container">
+  <h4 class="card-title">Finished <fa-icon [icon]="faCheck"></fa-icon></h4>
+
+  <div
+    cdkDropList
+    #finishedList="cdkDropList"
+    [cdkDropListData]="finished"
+    [cdkDropListConnectedTo]="[dialogList, offerList, finishedList, contactList, interviewList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of finished" cdkDrag>{{item}}</div>
+  </div>
+</div>
+
