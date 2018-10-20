@@ -7,6 +7,9 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { DragListComponent } from './components/drag-list/drag-list.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TableComponent } from './components/table/table.component';
+import { CdkTableModule } from '@angular/cdk/table';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 
@@ -14,14 +17,18 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [
     AppComponent,
-    DragListComponent
+    DragListComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     DragDropModule,
     NgbModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    CdkTableModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
