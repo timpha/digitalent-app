@@ -1,106 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import {BehaviorSubject, combineLatest} from 'rxjs';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import {columnNames, people} from './data';
+import { Person} from './person';
 
 import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import {FormControl} from '@angular/forms';
+import {TableDataSource, ValidatorService} from 'angular4-material-table';
+import {PersonValidatorService} from '../../service/person-validator.service';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  styleUrls: ['./table.component.scss'],
+  providers: [
+    {provide: ValidatorService, useClass: PersonValidatorService }
+  ],
 })
 export class TableComponent implements OnInit {
   faTrashAlt = faTrashAlt;
   faPencilAlt = faPencilAlt;
-  private people$ = new BehaviorSubject(people);
 
-  // Public observable for table
-  dataSource$ = new BehaviorSubject<any[]>([]);
+  displayedColumns = ['name', 'age', 'email', 'address', 'curreq', 'actionsColumn'];
 
-  // Array of column names
-  columns = columnNames;
+  @Input() personList = [
+    { name: 'Lollo Andersson', age: 32, email: 'lollo.andersson@gmail.com', address: 'Pippi Långstrumpgata 4', curreq: 'Contact' },
+    { name: 'Putte Planka', age: 45, email: 'putte.planka@gmail.com', address: 'Ölandstigen 34', curreq: 'Interview' },
+    { name: 'Johanna Ros', age: 43, email: 'johanna.ros@gmail.com', address: 'Tystgränd 12', curreq: 'Dialogue' },
+    { name: 'Rutger Rak', age: 39, email: 'rutger.rak@gmail.com', address: 'Hälsogatan 89', curreq: 'Finished' }
 
-  // Pagination data
-  currentPage$ = new BehaviorSubject(1);
-  // Will react to changes in the datasource observable and also the current page
-  dataOnPage$ = new BehaviorSubject<any[]>([]);
-  pageSize$ = new BehaviorSubject<number>(5);
-
-  searchFormControl = new FormControl();
-  sortKey$ = new BehaviorSubject<string>('name');
-  sortDirection$ = new BehaviorSubject<string>('asc');
+  ];
+  @Output() personListChange = new EventEmitter<Person[]>();
+  dataSource: TableDataSource<Person>;
 
 
-  constructor() { }
-
+  constructor(private personValidator: ValidatorService) { }
   ngOnInit() {
-    // map source to people observable
-    // this.dataSource$ = this.people$.pipe(map(v => Object.values(v)));
+    this.dataSource = new TableDataSource<any>(this.personList, Person, this.personValidator);
 
-    // Sliced data for pagination
-    combineLatest(this.dataSource$, this.currentPage$, this.pageSize$)
-      .subscribe(([allSources, currentPage, pageSize]) => {
-        const startingIndex = (currentPage - 1) * pageSize;
-        const onPage = allSources.slice(startingIndex, startingIndex + pageSize);
-        this.dataOnPage$.next(onPage);
-      });
-
-    combineLatest(this.people$, this.searchFormControl.valueChanges, this.sortKey$, this.sortDirection$)
-      .subscribe(([changedPersonData, searchTerm, sortKey, sortDirection]) => {
-        const personArray = Object.values(changedPersonData);
-        let filterdPersons: any[];
-
-        if (!searchTerm) {
-          filterdPersons = personArray;
-        } else {
-          const filteredResults = personArray.filter(person => {
-            return Object.values(person)
-              .reduce((prev, curr) => {
-                return prev || curr.toString().toLowerCase().includes(searchTerm.toLowerCase());
-              }, false);
-          });
-          filterdPersons = filteredResults;
-        }
-
-        const sortedPersons = filterdPersons.sort((a, b) => {
-          if(a[sortKey] > b[sortKey]) return sortDirection === 'asc' ? 1 : -1;
-          if(a[sortKey] < b[sortKey]) return sortDirection === 'asc' ? -1 : 1;
-          return 0;
-        });
-
-        this.dataSource$.next(sortedPersons);
-      });
-
-    this.searchFormControl.setValue('');
+    this.dataSource.datasourceSubject.subscribe(personList => this.personListChange.emit(personList));
   }
-
-  adjustSort(key: string) {
-    if (this.sortKey$.value === key) {
-      if (this.sortDirection$.value === 'asc') {
-        this.sortDirection$.next('desc');
-      } else {
-        this.sortDirection$.next('asc');
-      }
-      return;
-    }
-
-    this.sortKey$.next(key);
-    this.sortDirection$.next('asc');
-  }
-
-/*
-  addToList(peopleName: string) {
-    const updatePeople = this.people$.value[peopleName];
-
-    updatePeople.attack++;
-
-    const newPeopleData = { ... this.people$.value, [peopleName]: updatePeople };
-
-    this.people$.next(newPeopleData);
-
-  }
-*/
 
 }

@@ -17,7 +17,7 @@ export class DragListComponent implements OnInit {
   contact = ['Lollo Andersson'];
   dialog = [];
   interview = ['Putte Planka'];
-  offer = ['Hans Arwidsson'];
+  offer = ['Johanna Ros'];
   finished = ['Rutger Rak'];
 
   drop(event: CdkDragDrop<string[]>) {

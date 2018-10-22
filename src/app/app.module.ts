@@ -11,14 +11,22 @@ import { TableComponent } from './components/table/table.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-
+import {
+  MatIconModule,
+  MatButtonModule,
+  MatInputModule,
+  MatTableModule
+} from '@angular/material';
+import {CommonModule} from '@angular/common';
+import { CdkTableComponent } from './components/cdk-table/cdk-table.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     DragListComponent,
-    TableComponent
+    TableComponent,
+    CdkTableComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +36,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     FontAwesomeModule,
     CdkTableModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    CommonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

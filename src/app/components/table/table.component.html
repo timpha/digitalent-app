@@ -1,73 +1,89 @@
-<div class="form-inline">
-  <div class="form-group">
-    <div class="input-group mr-3">
-      <input type="text"
-             class="form-control"
-             placeholder="Search.."
-             [formControl]="searchFormControl">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary"
-                (click)="searchFormControl.setValue('')">
-          x
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<br>
-<table class="table table-striped table-dark" cdk-table [dataSource]="dataOnPage$">
+<mat-table class="table table-striped table-dark" #table [dataSource]="dataSource">
 
-  <tr cdk-header-row *cdkHeaderRowDef="columns"></tr>
-  <tr cdk-row *cdkRowDef="let row; columns: columns"></tr>
-
-  <ng-container cdkColumnDef="name">
-    <th cdk-header-cell *cdkHeaderCellDef>Name</th>
-    <td cdk-cell *cdkCellDef="let row">{{row.name}}</td>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef><h6>Name</h6></mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+        <input matInput [formControl]="row.validator.controls['name']" [readonly]="!row.editing" placeholder="Name" [(ngModel)]="row.currentData.name">
+      </mat-form-field>
+    </mat-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="age">
-    <th cdk-header-cell *cdkHeaderCellDef>Age</th>
-    <td cdk-cell *cdkCellDef="let row">{{row.age}}</td>
+  <ng-container matColumnDef="age">
+    <mat-header-cell *matHeaderCellDef><h6>Age</h6></mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+        <input matInput [formControl]="row.validator.controls['age']" [readonly]="!row.editing" placeholder="Age" [(ngModel)]="row.currentData.age">
+      </mat-form-field>
+    </mat-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="email">
-    <th cdk-header-cell *cdkHeaderCellDef>Email</th>
-    <td cdk-cell *cdkCellDef="let row">{{row.email}}</td>
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef><h6>Email</h6></mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+        <input matInput [formControl]="row.validator.controls['email']" [readonly]="!row.editing" placeholder="Email" [(ngModel)]="row.currentData.email">
+      </mat-form-field>
+    </mat-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="address">
-    <th cdk-header-cell *cdkHeaderCellDef>Address</th>
-    <td cdk-cell *cdkCellDef="let row">{{row.address}}</td>
+  <ng-container matColumnDef="address">
+    <mat-header-cell *matHeaderCellDef><h6>Address</h6></mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+        <input matInput [formControl]="row.validator.controls['address']" [readonly]="!row.editing" placeholder="Address" [(ngModel)]="row.currentData.address">
+      </mat-form-field>
+    </mat-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="picture">
-    <th cdk-header-cell *cdkHeaderCellDef>Picture</th>
-    <td cdk-cell *cdkCellDef="let row">{{row.picture}}</td>
+  <ng-container matColumnDef="curreq">
+    <mat-header-cell *matHeaderCellDef><h6>Current requitment step</h6></mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+        <input matInput [formControl]="row.validator.controls['curreq']" [readonly]="!row.editing" placeholder="Current requitment step" [(ngModel)]="row.currentData.curreq">
+      </mat-form-field>
+    </mat-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="currreq">
-    <th cdk-header-cell *cdkHeaderCellDef>Current requitment step</th>
-    <td cdk-cell *cdkCellDef="let row">{{row.currreq}}</td>
+  <!--
+    <ng-container cdkColumnDef="actionsColumn">
+      <th cdk-header-cell *cdkHeaderCellDef><button type="button" class="btn btn-primary">Add</button></th>
+      <td cdk-cell *cdkCellDef="let row">
+        <button type="button" class="btn btn-sm btn-outline-primary"><fa-icon [icon]="faPencilAlt"></fa-icon></button>
+        <button type="button" class="btn btn-sm btn-outline-danger float-right"><fa-icon [icon]="faTrashAlt"></fa-icon></button></td>
+      <button>Remove person</button>
+    </ng-container>
+  -->
+
+  <ng-container matColumnDef="actionsColumn">
+    <mat-header-cell *matHeaderCellDef>
+      <button class="btn btn-primary" (click)="dataSource.createNew()">Add</button>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <button *ngIf="!row.editing" class="btn btn-sm btn-outline-primary" focusable="false" (click)="row.startEdit()">
+        <fa-icon [icon]="faPencilAlt"></fa-icon>
+      </button>
+      <button *ngIf="row.editing" class="btn btn-sm btn-outline-primary" focusable="false" (click)="row.confirmEditCreate()">
+        <i class="fa fa-check mat-icon"></i>
+      </button>
+      <button class="btn btn-sm btn-outline-danger float-right"  (click)="row.cancelOrDelete()">
+        <fa-icon [icon]="faTrashAlt"></fa-icon>
+      </button>
+    </mat-cell>
   </ng-container>
 
-
-  <ng-container cdkColumnDef="removeList">
-    <th cdk-header-cell *cdkHeaderCellDef><button type="button" class="btn btn-primary" (click)="addToList(row.name)">Add</button></th>
-    <td cdk-cell *cdkCellDef="let row">
-      <button type="button" class="btn btn-sm btn-outline-primary"><fa-icon [icon]="faPencilAlt"></fa-icon></button>
-      <button type="button" class="btn btn-sm btn-outline-danger float-right"><fa-icon [icon]="faTrashAlt"></fa-icon></button></td>
-    <button>Remove person</button>
-  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
 
-</table>
+</mat-table>
 
-<ngb-pagination class="pagination justify-content-center"
+<!--<ngb-pagination class="pagination justify-content-center"
  [collectionSize]="dataSource$.value.length"
  [pageSize]="pageSize$.value"
  [page]="currentPage$.value"
  (pageChange)="currentPage$.next($event)">
-</ngb-pagination>
+</ngb-pagination>-->
 
 
 

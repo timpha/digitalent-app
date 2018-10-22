@@ -4,8 +4,7 @@ export const columnNames = [
   'email',
   'address',
   'picture',
-  'currreq',
-  'removeList'
+  'currreq'
 
 ];
 
@@ -22,7 +21,7 @@ export const people = {
     name: 'Putte Planka',
     age: '45',
     email: 'putte.planka@gmail.com',
-    address: 'Pippi Långstrumpgata 4',
+    address: 'Ölandstigen 34',
     picture: '',
     currreq : 'Interview'
   },
@@ -108,4 +107,3 @@ export const people = {
   }
 
 };
-
