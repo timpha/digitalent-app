@@ -14,17 +14,11 @@ export class DragListComponent implements OnInit {
   faComments = faComments;
   faMoneyCheckAlt = faMoneyCheckAlt;
 
-  contact = [
-    'Lollo Andersson',
-    'Putte Planka',
-    'Görgen Kristoffersson',
-    'Ivar Johansson'
-  ];
-
+  contact = ['Lollo Andersson'];
   dialog = [];
-  interview = [];
-  offer = [];
-  finished = [];
+  interview = ['Putte Planka'];
+  offer = ['Hans Arwidsson'];
+  finished = ['Rutger Rak'];
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {

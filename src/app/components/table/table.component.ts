@@ -90,6 +90,7 @@ export class TableComponent implements OnInit {
     this.sortDirection$.next('asc');
   }
 
+/*
   addToList(peopleName: string) {
     const updatePeople = this.people$.value[peopleName];
 
@@ -100,5 +101,6 @@ export class TableComponent implements OnInit {
     this.people$.next(newPeopleData);
 
   }
+*/
 
 }

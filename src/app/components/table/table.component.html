@@ -11,7 +11,6 @@
           x
         </button>
       </div>
-
     </div>
   </div>
 </div>
@@ -53,7 +52,7 @@
 
 
   <ng-container cdkColumnDef="removeList">
-    <th cdk-header-cell *cdkHeaderCellDef><button type="button" class="btn btn-link" (click)="addToList(row.name)">Add</button></th>
+    <th cdk-header-cell *cdkHeaderCellDef><button type="button" class="btn btn-primary" (click)="addToList(row.name)">Add</button></th>
     <td cdk-cell *cdkCellDef="let row">
       <button type="button" class="btn btn-sm btn-outline-primary"><fa-icon [icon]="faPencilAlt"></fa-icon></button>
       <button type="button" class="btn btn-sm btn-outline-danger float-right"><fa-icon [icon]="faTrashAlt"></fa-icon></button></td>
